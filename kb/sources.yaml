@@ -1,0 +1,35 @@
+# Documentos oficiais de referência da base de conhecimento.
+# type: pdf | html
+sources:
+  - title: "Lei nº 12.187/2009 — Política Nacional sobre Mudança do Clima (PNMC)"
+    url: "https://www2.camara.leg.br/legin/fed/lei/2009/lei-12187-29-dezembro-2009-599441-normaatualizada-pl.html"
+    issuer: "Presidência da República / Câmara dos Deputados"
+    type: html
+  - title: "Resolução CONAMA nº 491/2018 — Padrões de qualidade do ar"
+    url: "https://urbanismoemeioambiente.fortaleza.ce.gov.br/images/urbanismo-e-meio-ambiente/resolucao/resolucao_conama_491_de_2018.pdf"
+    issuer: "CONAMA / Ministério do Meio Ambiente"
+    type: pdf
+  - title: "Resolução CONAMA nº 506/2024 — Padrões nacionais de qualidade do ar (revisão da 491/2018)"
+    url: "https://conama.mma.gov.br/index.php?option=com_sisconama&task=arquivo.download&id=827"
+    issuer: "CONAMA / Ministério do Meio Ambiente"
+    type: pdf
+  - title: "Lei nº 12.651/2012 — Código Florestal"
+    url: "https://www2.camara.leg.br/legin/fed/lei/2012/lei-12651-25-maio-2012-613076-normaatualizada-pl.html"
+    issuer: "Presidência da República / Câmara dos Deputados"
+    type: html
+  - title: "Lei nº 14.944/2024 — Política Nacional de Manejo Integrado do Fogo"
+    url: "https://www2.camara.leg.br/legin/fed/lei/2024/lei-14944-31-julho-2024-796016-normaatualizada-pl.html"
+    issuer: "Presidência da República / Câmara dos Deputados"
+    type: html
+  - title: "Cartilha sobre Incêndios Florestais e Manejo Integrado do Fogo (Prevfogo/Ibama, ICMBio, MMA)"
+    url: "https://www.gov.br/icmbio/pt-br/centrais-de-conteudo/publicacoes/publicacoes-diversas/outros/CartilhasobreIncndiosFlorestaiseMIF_EdioMMA_1_2025_14deAgosto.pdf"
+    issuer: "Ibama (Prevfogo) / ICMBio / Ministério do Meio Ambiente"
+    type: pdf
+  - title: "Plano Clima Adaptação — Estratégia Nacional de Adaptação"
+    url: "https://www.gov.br/mma/pt-br/centrais-de-conteudo/publicacoes/mudanca-do-clima/estrategia-nacional-de-adaptacao.pdf"
+    issuer: "Ministério do Meio Ambiente e Mudança do Clima"
+    type: pdf
+  - title: "Plano Clima Adaptação — Sumário Executivo"
+    url: "https://www.gov.br/mma/pt-br/centrais-de-conteudo/publicacoes/mudanca-do-clima/plano-clima-adaptacao-sumario-executivo.pdf"
+    issuer: "Ministério do Meio Ambiente e Mudança do Clima"
+    type: pdf

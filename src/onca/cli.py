@@ -3,6 +3,7 @@
 import argparse
 import sys
 from importlib.metadata import version
+from pathlib import Path
 
 import psycopg
 
@@ -10,6 +11,10 @@ from onca.config import get_settings
 from onca.db.connection import connect
 from onca.db.migrate import migrate
 from onca.geo.lookup import find_region
+from onca.kb.ingest import SourceResult, ingest_sources
+from onca.kb.sources import DEFAULT_SOURCES_PATH, SourcesError, load_sources
+from onca.rag.embeddings import get_embedder
+from onca.rag.search import search_chunks
 
 CONNECT_TIMEOUT = 5
 
@@ -83,6 +88,66 @@ def geo_region(query: str) -> int:
     return 0
 
 
+def _print_result(result: SourceResult) -> None:
+    if result.status == "added":
+        print(f"  adicionado: {result.title} ({result.chunks} trechos)", flush=True)
+    elif result.status == "skipped":
+        print(f"  ignorado:   {result.title} ({result.detail})", flush=True)
+    else:
+        print(f"  erro:       {result.title} ({result.detail})", flush=True)
+
+
+def kb_ingest(sources_path: Path, force: bool) -> int:
+    try:
+        sources = load_sources(sources_path)
+    except SourcesError as exc:
+        print(f"erro: {exc}", file=sys.stderr)
+        return 1
+    print(f"Carregando {len(sources)} documentos...")
+    try:
+        with connect() as conn:
+            results = ingest_sources(
+                conn, sources, get_embedder(), force=force, on_result=_print_result
+            )
+    except psycopg.Error as exc:
+        _db_error(exc)
+        return 1
+    added = [r for r in results if r.status == "added"]
+    skipped = [r for r in results if r.status == "skipped"]
+    failed = [r for r in results if r.status == "error"]
+    print(
+        f"Resumo: {len(added)} adicionados ({sum(r.chunks for r in added)} trechos), "
+        f"{len(skipped)} ignorados, {len(failed)} com erro."
+    )
+    return 1 if failed else 0
+
+
+def kb_search(query: str, k: int) -> int:
+    if not query.strip():
+        print("erro: a pergunta está vazia.", file=sys.stderr)
+        return 1
+    if k < 1:
+        print("erro: -k deve ser pelo menos 1.", file=sys.stderr)
+        return 1
+    try:
+        with connect() as conn:
+            hits = search_chunks(conn, get_embedder(), query, k)
+    except psycopg.Error as exc:
+        _db_error(exc)
+        return 1
+    if not hits:
+        print("Nenhum trecho encontrado. Rode `onca kb ingest` para carregar a base.")
+        return 0
+    for rank, hit in enumerate(hits, start=1):
+        excerpt = " ".join(hit.text.split())
+        if len(excerpt) > 300:
+            excerpt = excerpt[:300].rstrip() + "..."
+        print(f"{rank}. [{hit.score:.3f}] {hit.title} — {hit.issuer}")
+        print(f"   {hit.url}")
+        print(f"   {excerpt}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="onca", description="Onça Guardiã")
     parser.add_argument("--version", action="version", version=f"onca {version('onca')}")
@@ -95,6 +160,14 @@ def build_parser() -> argparse.ArgumentParser:
     geo_sub = geo.add_subparsers(dest="geo_command", required=True)
     region = geo_sub.add_parser("region", help="região de um município, UF ou estado")
     region.add_argument("name", help='ex.: "Altamira", "PA", "São Paulo"')
+    kb = sub.add_parser("kb", help="base de conhecimento (documentos oficiais)")
+    kb_sub = kb.add_subparsers(dest="kb_command", required=True)
+    ingest = kb_sub.add_parser("ingest", help="baixa e carrega os documentos de kb/sources.yaml")
+    ingest.add_argument("--sources", type=Path, default=DEFAULT_SOURCES_PATH, help="arquivo YAML")
+    ingest.add_argument("--force", action="store_true", help="baixa de novo mesmo se já carregado")
+    search = kb_sub.add_parser("search", help="busca trechos por similaridade")
+    search.add_argument("query", help="pergunta em linguagem natural")
+    search.add_argument("-k", type=int, default=5, help="número de resultados (padrão: 5)")
     return parser
 
 
@@ -107,6 +180,10 @@ def main(argv: list[str] | None = None) -> int:
         return db_migrate()
     if args.command == "geo" and args.geo_command == "region":
         return geo_region(args.name)
+    if args.command == "kb" and args.kb_command == "ingest":
+        return kb_ingest(args.sources, args.force)
+    if args.command == "kb" and args.kb_command == "search":
+        return kb_search(args.query, args.k)
     parser.print_help()
     return 0
 
