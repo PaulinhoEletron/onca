@@ -1,4 +1,4 @@
-.PHONY: fmt lint test check up down clean
+.PHONY: fmt lint test check up down clean migrate
 
 fmt:
 	uv run ruff format .
@@ -23,3 +23,6 @@ down:
 
 clean:
 	docker compose down -v
+
+migrate:
+	uv run onca db migrate

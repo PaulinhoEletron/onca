@@ -1,18 +1,6 @@
-import psycopg
 import pytest
 
 from onca.cli import main
-from onca.config import get_settings
-
-
-@pytest.fixture
-def db_url() -> str:
-    url = get_settings().database_url
-    try:
-        psycopg.connect(url, connect_timeout=3).close()
-    except psycopg.Error:
-        pytest.skip("banco de dados indisponível")
-    return url
 
 
 @pytest.mark.db
