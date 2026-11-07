@@ -1,0 +1,15 @@
+.env
+.venv/
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+PLAN.md
+CLAUDE.md
+AGENTS.md
+reviews/
+concept
+email
+edital
+*.docx
