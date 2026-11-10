@@ -22,6 +22,42 @@ Work in progress. Done so far: database with Brazil's regions, states and munici
 (IBGE), and the knowledge base of official guidelines with local embeddings and semantic
 search. Next: weekly news collection, region and risk tagging, and report generation.
 
+### Related work
+
+Onça Guardiã brings together, for Brazil and in Portuguese, techniques that recent
+research has already validated on their own.
+
+**Turning news into risk data**
+- Ronco et al. (2026). *Disaster storylines and knowledge graphs from global news with
+  large language models and retrieval-augmented generation.* Scientific Data.
+  [doi:10.1038/s41597-026-07036-2](https://doi.org/10.1038/s41597-026-07036-2)
+- Puime Pedra et al. (2026). *From headlines to databases: leveraging LLMs for structured
+  disaster event extraction.* International Journal of Data Science and Analytics.
+  [doi:10.1007/s41060-025-01017-1](https://doi.org/10.1007/s41060-025-01017-1)
+- Vela-Tambo et al. (2025). *CienaLLM: Generative climate-impact extraction from news
+  articles with autoregressive LLMs.* [arXiv:2512.19305](https://arxiv.org/abs/2512.19305)
+
+**RAG grounded in official sources**
+- Vaghefi et al. (2023). *ChatClimate: Grounding conversational AI in climate science.*
+  Communications Earth & Environment.
+  [doi:10.1038/s43247-023-01084-x](https://doi.org/10.1038/s43247-023-01084-x)
+- Lewis et al. (2020). *Retrieval-augmented generation for knowledge-intensive NLP
+  tasks.* NeurIPS. [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
+
+**Portuguese NLP for the Brazilian environment**
+- Cação et al. (2021). *DEEPAGÉ: Answering questions in Portuguese about the Brazilian
+  environment.* BRACIS. [arXiv:2110.10015](https://arxiv.org/abs/2110.10015)
+- Cação et al. (2022). *Tracking environmental policy changes in the Brazilian Federal
+  Official Gazette.* PROPOR. [arXiv:2202.10221](https://arxiv.org/abs/2202.10221)
+- Wang et al. (2024). *Multilingual E5 text embeddings: a technical report.* The
+  embedding model used locally by this project.
+  [arXiv:2402.05672](https://arxiv.org/abs/2402.05672)
+
+**AI agents for risk management**
+- Li et al. (2025). *Disaster management in the era of agentic AI systems: a vision for
+  collective human-machine intelligence for augmented resilience.*
+  [arXiv:2510.16034](https://arxiv.org/abs/2510.16034)
+
 ### How to run
 
 Requirements: [uv](https://docs.astral.sh/uv/) and Docker.
@@ -67,6 +103,16 @@ Em desenvolvimento. Pronto até agora: banco de dados com regiões, estados e mu
 Brasil (IBGE) e a base de conhecimento de diretrizes oficiais com embeddings locais e
 busca semântica. Próximos passos: coleta semanal de notícias, classificação por região e
 tipo de risco, e geração do relatório.
+
+### Trabalhos relacionados
+
+A Onça Guardiã junta, para o Brasil e em português, técnicas que a pesquisa recente já
+validou separadamente: extrair riscos de notícias com LLMs (Ronco et al., 2026; Puime
+Pedra et al., 2026; Vela-Tambo et al., 2025), ancorar respostas em fontes oficiais com
+RAG (Vaghefi et al., 2023; Lewis et al., 2020), processar textos ambientais em português
+(Cação et al., 2021 e 2022; Wang et al., 2024) e organizar o trabalho em agentes de IA
+para gestão de riscos (Li et al., 2025). As referências completas estão na seção
+[Related work](#related-work), acima.
 
 ### Como rodar
 
