@@ -2,15 +2,15 @@ services:
   db:
     image: pgvector/pgvector:pg16
     environment:
-      POSTGRES_USER: onca
-      POSTGRES_PASSWORD: onca
-      POSTGRES_DB: onca
+      POSTGRES_USER: ${ONCA_DB_USER:-onca}
+      POSTGRES_PASSWORD: ${ONCA_DB_PASSWORD:Defina em ONCA_DB_PASSWORD no arquivo .env}
+      POSTGRES_DB: ${ONCA_DB_NAME:-onca}
     ports:
       - "127.0.0.1:${ONCA_DB_PORT:-5433}:5432"
     volumes:
       - onca_pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U onca -d onca"]
+      test: ["CMD-SHELL", "pg_isready -U ${ONCA_DB_USER:-onca} -d ${ONCA_DB_NAME:-onca}"]
       interval: 3s
       timeout: 3s
       retries: 20
